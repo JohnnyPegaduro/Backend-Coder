@@ -1,14 +1,14 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
-const controller = require("../controllers/products.controller");
-const { completedFields, adminAuth } = require("../middlewares/middlewares");
+import controller from "../controllers/products.controller.js";
+import completedFields from "../libs/middlewares.js";
 
 //? PRODUCTS
 
-router.get("/", adminAuth(true), controller.getAll);
-router.get("/:id", adminAuth(true), controller.getById);
-router.post("/", adminAuth(true), completedFields, controller.post);
-router.put("/:id", adminAuth(false), completedFields, controller.put);
-router.delete("/:id", adminAuth(false), controller.delete);
+router.get("/", controller.getAll);
+router.get("/:id", controller.getById);
+router.post("/", completedFields, controller.post);
+router.put("/:id", completedFields, controller.put);
+router.delete("/:id", controller.delete);
 
-module.exports = router;
+export default router;

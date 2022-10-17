@@ -1,33 +1,29 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const morgan = require("morgan");
-
-//! SETTINGS
-
-app.set("port", process.env.PORT || 8080); //! CONFIG port
-app.set("json spaces", 2); //! JSON formatter
-
-//! MIDDLEWARES
-
-app.use(express.urlencoded({
-    extended: true
-}));
-app.use(express.json());
-app.use(morgan("dev"));
-app.use("/", express.static(path.join(__dirname, "../public"))); //! STATIC FILES
+import morgan from "morgan";
 
 //! ROUTES
 
-const indexRoute = require("./routes/index.routes");
-app.use("/api", indexRoute); //
+import indexRoute from "./routes/index.routes.js";
 
-//! 404 - Not Found
+//! SETTINGS
 
-app.use((req, res) => {
-    res.status(404).json({
-        Message: "Error 404 - Page not found"
-    });
-});
+app.set("port", 8080); //! CONFIG port
+app.set("json spaces", 2); //! JSON formatter
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs"); //! VIEW ENGINES
 
-module.exports = app;
+//! MIDDLEWARES
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(morgan("dev"));
+app.use("/", express.static(path.join(__dirname, "../public"))); //! STATIC FILES
+app.use("/", indexRoute); //
+
+export default app;
