@@ -71,7 +71,7 @@ controller.delete = async (req, res) => {
         res
         .status(200)
         .send({
-            message: `Se ha eliminado el producto ${data.title}`
+            message: `Se ha eliminado el producto ${data.title} del servidor`
         }) :
         res.status(404).send({
             message: "No se ha encontrado el producto"
